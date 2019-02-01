@@ -1,9 +1,10 @@
 
 class Player {
    File[] files;
-
+   String path;
 
  Player ( String _path ) {
+   path = _path;
    files = listFiles( _path );
 
  }
@@ -17,9 +18,11 @@ class Player {
 
  int getFileCount( ){
 
-   return files.length;
+   return files.length-1;
  }
-
+ void reload(){
+   files = listFiles( path );
+ }
 
  File[] listFiles(String dir) {
    File file = new File(sketchPath() + "/"+dir);
@@ -31,5 +34,6 @@ class Player {
      return null;
    }
  }
+
 
 }

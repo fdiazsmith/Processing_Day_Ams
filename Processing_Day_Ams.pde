@@ -1,21 +1,15 @@
 
-Brush brush;
 Canvas canvas;
 
 void setup(){
   size(600,600);
-  background(255,255,0);
-  brush = new Brush(10);
-
   canvas = new Canvas( "data" );
+  canvas.bgCol = color(255,255,0);
+  canvas.set();
 }
 
 void draw( ) {
-  canvas.set();
-
-  brush.update();
-  brush.draw();
-
+  clear();
   canvas.update();
 }
 
