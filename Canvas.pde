@@ -3,7 +3,7 @@ class Canvas {
   int size;
 
 
- Canvas (int _s) {
+ Canvas ( ) {
 
  }
  void set(){
