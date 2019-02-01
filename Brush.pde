@@ -1,4 +1,4 @@
-
+//
 class Brush {
   int size;
   color brushColor;
