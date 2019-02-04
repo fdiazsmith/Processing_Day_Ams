@@ -1,9 +1,12 @@
-
+/**
+ * @class Canvas
+ *
+ */
 class Canvas {
   boolean pressedLastFrame;
   int totalNumberOfFrames;
   Player player;
-  color bgCol = color(225,255,20);
+  color bgCol = color(225, 255, 20);
   int onionLayer;
   PImage current;
   Brush brush;
@@ -11,41 +14,61 @@ class Canvas {
   PGraphics[] oL = new PGraphics[10];
   PGraphics brushCanvas;
 
- Canvas ( String path) {
-   brush = new Brush(10);
-   player = new Player(path);
-   totalNumberOfFrames = player.getFileCount( );
-   onionLayer = 3;
-   current = createImage( width, height, ARGB );
-
- }
-
- void set( ){
-
-  brush.reset();
-  player.reload();
-
-  totalNumberOfFrames = player.getFileCount( );
-
-  for(int i = 0; i < 10; i++){
-    onionLayers[i] = loadImage("data/"+(totalNumberOfFrames-i)+".png");
+  /**
+   * @class Canvas
+   * @contructor
+   * @param {String} path - path to the data folder were the frames will be stored.
+   */
+  Canvas ( String path) {
+    brush = new Brush(10);
+    player = new Player(path);
+    totalNumberOfFrames = player.getFileCount( );
+    onionLayer = 3;
+    current = createImage( width, height, ARGB );
   }
- }
 
-  void onion(int _count){
-    for(int i = _count; i >= 0; i--){
-      image(onionLayers[i],0,0);
+  /**
+   * @method set
+   * prepares the canvas to draw the next frame.
+   */
+  void set( ) {
+    brush.reset();
+    player.reload();
+
+    totalNumberOfFrames = player.getFileCount( );
+
+    for (int i = 0; i < 10; i++) {
+      onionLayers[i] = loadImage("data/"+(totalNumberOfFrames-i)+".png");
     }
-
   }
 
-  void released(char _key){
-    if( _key == 's' ){
+  /**
+   * @method onion – display onion skin layer for reference
+   * @param {int} _count - number of layer to to show
+   */
+  void onion(int _count) {
+    for (int i = _count; i >= 0; i--) {
+      float alpha = i*1.0/_count*1.0;
+      tint(255, alpha * 150);
+      image(onionLayers[i], 0, 0);
+    }
+    tint(255, 255);
+  }
+
+  /**
+   * @method released – handles keyReleased events
+   * @param {char} _key - key just released
+   */
+  void released(char _key) {
+    if ( _key == 's' ) {
       pressedLastFrame = false;
     }
   }
 
-  void update( ){
+  /**
+   * @method update – handles keyReleased events
+   */
+  void update( ) {
     background(bgCol);
     // brush.update( );
     brush.draw( );
@@ -55,14 +78,17 @@ class Canvas {
     image(brushCanvas, 0, 0);
 
     // save
-    if( keyPressed && !pressedLastFrame ){
-      if( key == 's' ){
+    // IDEA maybe to be consistent we should put this in it own handler, just like the key keyReleased
+    if ( keyPressed && !pressedLastFrame ) {
+      if ( key == 's' ) {
         save( );
       }
     }
   }
-
-  void save( ){
+  /**
+   * @class save – saves out a new frame
+   */
+  void save( ) {
     totalNumberOfFrames++;
     brushCanvas.save("data/"+totalNumberOfFrames+".png");
     pressedLastFrame = true;

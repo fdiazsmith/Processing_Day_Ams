@@ -1,10 +1,10 @@
 
 Canvas canvas;
 
-void setup(){
-  size(600,600);
+void setup() {
+  size(600, 600);
   canvas = new Canvas( "data" );
-  canvas.bgCol = color(255,255,0);
+  canvas.bgCol = color(255, 255, 0);
   canvas.set();
 }
 
@@ -13,6 +13,6 @@ void draw( ) {
   canvas.update();
 }
 
-void keyReleased( ){
+void keyReleased( ) {
   canvas.released(key);
 }
