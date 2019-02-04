@@ -1,6 +1,6 @@
 /**
  * @class Brush
- - anything that leaves a mark should be handled here.
+ * - anything that leaves a mark should be handled here.
  */
 class Brush {
   int size;
