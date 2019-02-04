@@ -10,7 +10,7 @@ class Canvas {
   int onionLayer;
   PImage current;
   Brush brush;
-  PImage[] onionLayers = new PImage[10];
+
   PGraphics[] oL = new PGraphics[10];
   PGraphics brushCanvas;
 
@@ -36,22 +36,6 @@ class Canvas {
 
     totalNumberOfFrames = player.getFileCount( );
 
-    for (int i = 0; i < 10; i++) {
-      onionLayers[i] = loadImage("data/"+(totalNumberOfFrames-i)+".png");
-    }
-  }
-
-  /**
-   * @method onion – display onion skin layer for reference
-   * @param {int} _count - number of layer to to show
-   */
-  void onion(int _count) {
-    for (int i = _count; i >= 0; i--) {
-      float alpha = i*1.0/_count*1.0;
-      tint(255, alpha * 150);
-      image(onionLayers[i], 0, 0);
-    }
-    tint(255, 255);
   }
 
   /**
@@ -63,26 +47,56 @@ class Canvas {
       pressedLastFrame = false;
     }
   }
+  /**
+   * @method pressed – handles keyReleased events
+   * @param {char} _key - key just pressed
+   */
+  void pressed(char _key) {
+    if ( _key == 'p' ) {
+      player.playing = true;
+    }
+    else if(_key == 's' ){
+      save();
+    }
+  }
+  /**
+   * @method mouseMoved
+   */
+  void mouseMoved() {
+    if(player.playing){
+      player.stop();
+    }
+  }
 
   /**
    * @method update - draws and displays
    */
   void update( ) {
     background(bgCol);
-    // brush.update( );
-    brush.draw( );
-
-    onion(3);
-    brushCanvas = brush.get();
-    image(brushCanvas, 0, 0);
-
-    // save
-    // IDEA maybe to be consistent we should put this in it own handler, just like the key keyReleased
-    if ( keyPressed && !pressedLastFrame ) {
-      if ( key == 's' ) {
-        save( );
+    if(player.playing){
+      player.play(player.frame);
+      if(frameCount%5 == 0){
+        player.frame++;
       }
     }
+    else{
+
+      // brush.update( );
+      brush.draw( );
+
+      player.onion(3);
+      brushCanvas = brush.get();
+      image(brushCanvas, 0, 0);
+    }
+
+
+    // // save
+    // // IDEA maybe to be consistent we should put this in it own handler, just like the key keyReleased
+    // if ( keyPressed && !pressedLastFrame ) {
+    //   if ( key == 's' ) {
+    //     save( );
+    //   }
+    // }
   }
   /**
    * @class save – saves out a new frame
