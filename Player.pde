@@ -1,6 +1,6 @@
 /**
  * @class Player
- *
+ *  - anything that has to do with frames should be handled here 
  */
 class Player {
   File[] files;
@@ -15,16 +15,22 @@ class Player {
     files = listFiles( _path );
   }
   /**
-   * @method preview 
+   * @method preview
    */
   void preview() {
-    // onion skin
+    // I think this is where onion should be called from.
   }
   /**
    * @method loop
    */
   void loop() {
     // save
+  }
+  /**
+   * @method play
+   */
+  void play() {
+    // load all frames and playback thrrough all of them.
   }
   /**
    * @method getFileCount – return number of files in the specified data folder

@@ -1,6 +1,6 @@
 /**
  * @class Canvas
- *
+ * - this class should coordinate between player and brush
  */
 class Canvas {
   boolean pressedLastFrame;
@@ -15,7 +15,6 @@ class Canvas {
   PGraphics brushCanvas;
 
   /**
-   * @class Canvas
    * @contructor
    * @param {String} path - path to the data folder were the frames will be stored.
    */
@@ -66,7 +65,7 @@ class Canvas {
   }
 
   /**
-   * @method update – handles keyReleased events
+   * @method update - draws and displays
    */
   void update( ) {
     background(bgCol);
