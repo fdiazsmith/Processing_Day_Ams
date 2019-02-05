@@ -7,7 +7,6 @@ class Canvas {
   int totalNumberOfFrames;
   Player player;
   color bgCol = color(225, 255, 20);
-  int onionLayer;
   PImage current;
   Brush brush;
 
@@ -22,7 +21,7 @@ class Canvas {
     brush = new Brush(10);
     player = new Player(path);
     totalNumberOfFrames = player.getFileCount( );
-    onionLayer = 3;
+
     current = createImage( width, height, ARGB );
   }
 
@@ -74,29 +73,16 @@ class Canvas {
   void update( ) {
     background(bgCol);
     if(player.playing){
-      player.play(player.frame);
-      if(frameCount%5 == 0){
-        player.frame++;
-      }
+      player.play();
     }
     else{
-
       // brush.update( );
       brush.draw( );
 
-      player.onion(3);
+      player.onion();
       brushCanvas = brush.get();
       image(brushCanvas, 0, 0);
     }
-
-
-    // // save
-    // // IDEA maybe to be consistent we should put this in it own handler, just like the key keyReleased
-    // if ( keyPressed && !pressedLastFrame ) {
-    //   if ( key == 's' ) {
-    //     save( );
-    //   }
-    // }
   }
   /**
    * @class save – saves out a new frame

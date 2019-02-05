@@ -68,6 +68,11 @@ class Brush {
    */
   void reset() {
     pg = createGraphics(width, height);
+    // HACK: you can't save an empty canvas. so we draw and transparent line
+    pg.beginDraw();
+    pg.stroke(255, 0);
+    pg.line(0, 0, width, 0);
+    pg.endDraw();
     shp = createShape();
   }
   /**

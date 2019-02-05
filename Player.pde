@@ -8,7 +8,13 @@ class Player {
   PImage[] onionLayers = new PImage[10];
   boolean playing = false;
   int frame = 0;
+  int framesPerSecond;
+  int lastFrameTimeStamp;
+  int onionLayerCount = 3;
+  boolean onionLayersAvailable = false;
 
+  private int oLCount = 3;
+  private float fpsInterval = 0;
   /**
    * @contructor
    * @param {String} path - path to the data folder were the frames will be stored.
@@ -16,6 +22,7 @@ class Player {
   Player ( String _path ) {
     path = _path;
     files = listFiles( _path );
+    setFPS(12);
   }
   /**
    * @method preview
@@ -32,7 +39,17 @@ class Player {
   /**
    * @method play
    */
-  void play(int frame) {
+  void play() {
+    showFrame( frame );
+    if(lastFrameTimeStamp + fpsInterval < millis()){
+      frame++;
+      lastFrameTimeStamp = millis();
+    }
+  }
+  /**
+   * @method showFrame
+   */
+  void showFrame(int frame) {
     int totalFrames = getFileCount();
     tint(255, 255);
     if(frame < totalFrames){
@@ -56,25 +73,30 @@ class Player {
    * prepares the canvas to draw the next frame.
    */
   void set( ) {
-    for (int i = 0; i < 10; i++) {
-      println(i+"  data/"+(getFileCount()-i)+".png");
-      onionLayers[i] = loadImage("data/"+(getFileCount()-i)+".png");
+    int fileCount = getFileCount()>10? 10 : getFileCount() ;
+    if(fileCount>=0){
+      onionLayersAvailable = true;
+      oLCount = fileCount>3? oLCount: fileCount;
+      println("Get number of file !! ", fileCount);
+      for (int i = 0; i <= fileCount-1; i++) {
+        println(i+"  data/"+(getFileCount()-i)+".png");
+        onionLayers[i] = loadImage("data/"+(getFileCount()-i)+".png");
+      }
     }
   }
 
   /**
    * @method onion – display onion skin layer for reference
-   * @param {int} _count - number of layer to to show
    */
-  void onion(int _count) {
-    for (int i = 0; i < _count; i++) {
-
-      float alpha = 1 - (i*1.0/_count*1.0);
-      tint(255, alpha * 150);
-      image(onionLayers[i], 0, 0);
+  void onion( ) {
+    if(onionLayersAvailable){
+      for (int i = 0; i < oLCount; i++) {
+        float alpha = 1 - (i*1.0/oLCount*1.0);
+        tint(255, alpha * 150);
+        image(onionLayers[i], 0, 0);
+      }
+      tint(255, 255);
     }
-    tint(255, 255);
-
   }
   /**
    * @method getFileCount – return number of files in the specified data folder
@@ -90,6 +112,15 @@ class Player {
   void reload() {
     files = listFiles( path );
     set();
+  }
+  /**
+   * @method setFPS –
+   */
+  float setFPS(int frames) {
+    files = listFiles( path );
+    framesPerSecond = frames;
+    fpsInterval = 1000/framesPerSecond;
+    return fpsInterval;
   }
   /**
    * @method listFiles – get
