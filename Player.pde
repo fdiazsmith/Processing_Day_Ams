@@ -1,6 +1,7 @@
 /**
  * @class Player
  *  - anything that has to do with frames should be handled here
+ * [custom event listeners](https://forum.processing.org/one/topic/custom-events-event-listener.html)
  */
 class Player {
   File[] files;
@@ -12,9 +13,11 @@ class Player {
   int lastFrameTimeStamp;
   int onionLayerCount = 3;
   boolean onionLayersAvailable = false;
-
+  // This is none of your business, it is private parts!
   private int oLCount = 3;
   private float fpsInterval = 0;
+  private static final boolean DEBUG = false;
+
   /**
    * @contructor
    * @param {String} path - path to the data folder were the frames will be stored.
@@ -24,64 +27,58 @@ class Player {
     files = listFiles( _path );
     setFPS(12);
   }
-  /**
-   * @method preview
-   */
-  void preview() {
-    // I think this is where onion should be called from.
-  }
-  /**
-   * @method loop
-   */
-  void loop() {
-    // save
-  }
+
   /**
    * @method play
    */
-  void play() {
+  void play( ) {
     showFrame( frame );
     if(lastFrameTimeStamp + fpsInterval < millis()){
       frame++;
       lastFrameTimeStamp = millis();
     }
   }
+
   /**
    * @method showFrame
    */
-  void showFrame(int frame) {
-    int totalFrames = getFileCount();
+  void showFrame( int frame ) {
+    int totalFrames = getFileCount( );
     tint(255, 255);
-    if(frame < totalFrames){
+    if( frame < totalFrames ){
       PImage currentFrame = loadImage("data/"+frame+".png");
       image(currentFrame, 0, 0);
     }
     else{
-      stop();
+      stop( );
     }
   }
+
   /**
    * @method stop
    * prepares the canvas to draw the next frame.
    */
-  void stop(){
+  void stop( ) {
     playing = false;
     frame = 0;
   }
+
   /**
    * @method set
    * prepares the canvas to draw the next frame.
    */
   void set( ) {
     int fileCount = getFileCount()>10? 10 : getFileCount() ;
-    if(fileCount>=0){
+    if( fileCount >= 0 ){
       onionLayersAvailable = true;
       oLCount = fileCount>3? oLCount: fileCount;
-      println("Get number of file !! ", fileCount);
+      if( DEBUG ) println("Get number of file !! ", fileCount);
+
       for (int i = 0; i <= fileCount-1; i++) {
-        println(i+"  data/"+(getFileCount()-i)+".png");
+        if( DEBUG ) println(i+"  data/"+(getFileCount()-i)+".png");
         onionLayers[i] = loadImage("data/"+(getFileCount()-i)+".png");
       }
+
     }
   }
 
@@ -89,7 +86,7 @@ class Player {
    * @method onion – display onion skin layer for reference
    */
   void onion( ) {
-    if(onionLayersAvailable){
+    if( onionLayersAvailable ){
       for (int i = 0; i < oLCount; i++) {
         float alpha = 1 - (i*1.0/oLCount*1.0);
         tint(255, alpha * 150);
@@ -98,6 +95,7 @@ class Player {
       tint(255, 255);
     }
   }
+
   /**
    * @method getFileCount – return number of files in the specified data folder
    * @return {int} filecount
@@ -109,27 +107,29 @@ class Player {
   /**
    * @method reload – updates file list array
    */
-  void reload() {
+  void reload( ) {
     files = listFiles( path );
-    set();
+    set( );
   }
+
   /**
    * @method setFPS –
    */
-  float setFPS(int frames) {
+  float setFPS( int frames ) {
     files = listFiles( path );
     framesPerSecond = frames;
     fpsInterval = 1000/framesPerSecond;
     return fpsInterval;
   }
+
   /**
    * @method listFiles – get
    * @returns {File[]} - array of filepath.
    */
-  File[] listFiles(String dir) {
-    File file = new File(sketchPath() + "/"+dir);
-    if (file.isDirectory()) {
-      File[] files = file.listFiles();
+  File[] listFiles( String dir ) {
+    File file = new File( sketchPath() + "/"+dir );
+    if ( file.isDirectory() ) {
+      File[] files = file.listFiles( );
       return files;
     } else {
       // If it's not a directory
