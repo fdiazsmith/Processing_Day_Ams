@@ -8,7 +8,7 @@ class Player {
   String path;
   PImage[] onionLayers = new PImage[10];
   boolean playing = false;
-  int frame = 0;
+  int frame = 1;
   int framesPerSecond;
   int lastFrameTimeStamp;
   int onionLayerCount = 3;
@@ -43,7 +43,7 @@ class Player {
    * @method seek
    * @params seconds -
    * if negative it starts at the end and substracts seconds
-   * if positive is simply starts at 0  
+   * if positive is simply starts at 0
    */
   void seek( int seconds ) {
     if( seconds < 0 ){
@@ -81,7 +81,7 @@ class Player {
     for (int i = 0; i < oLCount; i++) {
       float alpha = 1 - (i*1.0/oLCount*1.0);
       tint(255, alpha * 150);
-      int f = frame-i >=0?frame-i:0;
+      int f = frame-i >=1?frame-i:1;
       PImage currentFrame = loadImage("data/"+f+".png");
       image(currentFrame, 0, 0);
     }
@@ -94,7 +94,7 @@ class Player {
    */
   void stop( ) {
     playing = false;
-    frame = 0;
+    frame = 1;
   }
 
   /**
