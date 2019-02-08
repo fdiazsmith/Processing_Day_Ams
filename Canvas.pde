@@ -45,6 +45,12 @@ class Canvas {
     if ( _key == 's' ) {
       pressedLastFrame = false;
     }
+    else if(_key == 'h' ){
+      player.setOnionLayers(3);
+    }
+    else if ( _key == 'p' ) {
+      player.previewWithOnion = false;
+    }
   }
   /**
    * @method pressed – handles keyReleased events
@@ -53,10 +59,21 @@ class Canvas {
   void pressed(char _key) {
     if ( _key == 'p' ) {
       player.playing = true;
+      player.previewWithOnion = true;
     }
     else if(_key == 's' ){
       save();
     }
+    else if(_key == 'r' ){
+      brush.reset();
+    }
+    else if(_key == 'h' ){
+      player.setOnionLayers(10);
+    }
+    else if(_key == 'o'){
+      player.seek(-2);
+    }
+
   }
   /**
    * @method mouseMoved
@@ -65,6 +82,12 @@ class Canvas {
     if(player.playing){
       player.stop();
     }
+  }
+  /**
+   * @method mousePressed
+   */
+  void mousePressed() {
+
   }
 
   /**

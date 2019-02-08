@@ -56,3 +56,10 @@ void keyPressed( ) {
 void mouseMoved( ) {
   canvas.mouseMoved();
 }
+/**
+*
+* @method mousePressed
+*/
+void mousePressed() {
+  canvas.mousePressed();
+}

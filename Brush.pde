@@ -5,6 +5,7 @@
 class Brush {
   int size;
   color brushColor;
+  boolean eraser = false;
   PGraphics pg;
   PShape shp;
   /**
@@ -42,26 +43,56 @@ class Brush {
    */
   void draw() {
     if ( mousePressed ) {
-      pg.beginDraw();
-      // pg.clear();
-      pg.stroke(brushColor);
-      pg.strokeWeight(size);
-      pg.smooth();
-      pg.line(pmouseX, pmouseY, mouseX, mouseY);
+      if (mouseButton == LEFT) {
+        pg.beginDraw();
+        // pg.clear();
+        pg.stroke(brushColor);
+        pg.strokeWeight(size);
+        pg.smooth();
+        pg.line(pmouseX, pmouseY, mouseX, mouseY);
 
 
-      // shp.beginShape();
-      // shp.fill(0, 100, 255);
-      // shp.stroke(100);
-      //
-      // shp.vertex(0, 0);
-      // shp.vertex(0, 50);
-      // shp.vertex(50, 50);
-      // shp.vertex(50, 0);
-      // shp.endShape(CLOSE);
-      // pg.shape(shp);
-      pg.endDraw();
+        // shp.beginShape();
+        // shp.fill(0, 100, 255);
+        // shp.stroke(100);
+        //
+        // shp.vertex(0, 0);
+        // shp.vertex(0, 50);
+        // shp.vertex(50, 50);
+        // shp.vertex(50, 0);
+        // shp.endShape(CLOSE);
+        // pg.shape(shp);
+        pg.endDraw();
+      } else if (mouseButton == RIGHT) {
+        eraser = true;
+        erase();
+      } else {
+
+      }
+
     }
+  }
+  /**
+   * @method erase –
+   */
+  void erase() {
+    int size = 10;
+    color clearColor  = color(255);
+    int wMin = mouseX - size;
+    int wMax = mouseX + size;
+    int hMin = mouseY - size;
+    int hMax = mouseY + size;
+    
+    pg.loadPixels();
+    for(int x = wMin ; x < wMax ; x++){
+      for(int y = 0 ; y < hMax ; y++){
+          pg.set(x,y,clearColor);
+      }
+    }
+
+    pg.updatePixels();
+
+
   }
   /**
    * @method reset – delete all marks. return to blank 'canvas'
