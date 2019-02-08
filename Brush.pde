@@ -4,6 +4,7 @@
  */
 class Brush {
   int size;
+  int scale;
   color brushColor;
   boolean eraser = false;
   PGraphics pg;
@@ -13,20 +14,11 @@ class Brush {
    * @param {int} _s - size of the brush
    */
   Brush (int _s) {
-    size = _s;
     brushColor = color(23);
-    pg = createGraphics(width, height);
+    scale = 2;
+    size = (int)_s/scale;
+    pg = createGraphics(width/scale, height/scale);
     shp = createShape();
-  }
-  /**
-   * @contructor
-   * @param {int} _s - size of the brush
-   * @param {color} _c - color of the brush
-   */
-  Brush (int _s, int _c) {
-    size = _s;
-    brushColor = _c;
-    pg = createGraphics(width, height);
   }
   /**
    * @method update – change appreances of the brush
@@ -53,7 +45,10 @@ class Brush {
     pg.stroke(brushColor);
     pg.strokeWeight(size);
     pg.smooth();
-    pg.line(pmouseX, pmouseY, mouseX, mouseY);
+
+    // if( sqrt( pow((pmouseX/scale) - (mouseX/scale),2) + pow((pmouseY/scale) - (mouseY/scale),2)) < size*4 ){
+      pg.line(pmouseX/scale, pmouseY/scale, mouseX/scale, mouseY/scale);
+    // }
 
 
     // shp.beginShape();
@@ -72,21 +67,20 @@ class Brush {
    * @method erase –
    */
   void erase() {
-    int size = 20/2;
+    int r = size/2;
     color clearColor  = color(255, 0);
-    int wMin = mouseX - size;
-    int wMax = mouseX + size;
-    int hMin = mouseY - size;
-    int hMax = mouseY + size;
+    int wMin = (mouseX/scale) - r;
+    int wMax = (mouseX/scale) + r;
+    int hMin = (mouseY/scale) - r;
+    int hMax = (mouseY/scale) + r;
     pg.beginDraw();
     pg.loadPixels();
     for(int x = wMin ; x < wMax ; x++){
       for(int y = hMin ; y < hMax ; y++){
-          if( sqrt( pow(mouseX - x,2)+pow(mouseY - y,2) ) < size ){
+          if( sqrt( pow((mouseX/scale) - x,2)+pow((mouseY/scale) - y,2) ) < r ){
             // pg.set(x,y,clearColor);
-            pg.pixels[x+y*width] = clearColor;
+            pg.pixels[x+y*(width/scale)] = clearColor;
           }
-
       }
     }
     pg.updatePixels();
@@ -96,13 +90,15 @@ class Brush {
    * @method reset – delete all marks. return to blank 'canvas'
    */
   void reset() {
-    pg = createGraphics(width, height);
-    // HACK: you can't save an empty canvas. so we draw and transparent line
-    pg.beginDraw();
-    pg.stroke(255, 0);
-    pg.line(0, 0, width, 0);
-    pg.endDraw();
-    shp = createShape();
+    // pmouseX = mouseX;
+    // pmouseY =  mouseY;
+    // pg = createGraphics(width, height);
+    // // HACK: you can't save an empty canvas. so we draw and transparent line
+    // pg.beginDraw();
+    // pg.stroke(255, 0);
+    // pg.line(0, 0, width, 0);
+    // pg.endDraw();
+    // shp = createShape();
   }
   /**
    * @method get – returns the brush graphics context

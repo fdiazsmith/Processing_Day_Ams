@@ -18,7 +18,7 @@ class Canvas {
    * @param {String} path - path to the data folder were the frames will be stored.
    */
   Canvas ( String path) {
-    brush = new Brush(10);
+    brush = new Brush(30);
     player = new Player(path);
     totalNumberOfFrames = player.getFileCount( );
 
@@ -30,7 +30,7 @@ class Canvas {
    * prepares the canvas to draw the next frame.
    */
   void set( ) {
-    // brush.reset();
+    brush.reset();
     player.reload();
 
     totalNumberOfFrames = player.getFileCount( );
@@ -99,21 +99,45 @@ class Canvas {
       player.play();
     }
     else{
+      message("Animation duration: "+player.getFileCount()/player.framesPerSecond+"s", width*.015, height*0.015);
       brush.update( );
       // brush.draw( );
 
       player.onion();
       brushCanvas = brush.get();
-      image(brushCanvas, 0, 0);
+      image(brushCanvas, 0, 0, width, height);
     }
   }
   /**
    * @class save – saves out a new frame
    */
   void save( ) {
+    modal("Frame Saved");
+    delay(100);
     totalNumberOfFrames++;
     brushCanvas.save("data/"+totalNumberOfFrames+".png");
     pressedLastFrame = true;
     set();
+    delay(300);
+  }
+  /**
+   * @class modal – 
+   */
+  void modal( String message ) {
+    textAlign(CENTER, CENTER);
+    fill(50, 150);
+    rect(0,0,width, height);
+    fill(255);
+    textSize(132);
+    text(message, width/2, height/2);
+  }
+  /**
+   * @class message – 
+   */
+  void message( String message, float x, float y ) {
+    textAlign(LEFT, CENTER);
+    fill(30, 180);
+    textSize(16);
+    text(message, (int)x, (int)y );
   }
 }
