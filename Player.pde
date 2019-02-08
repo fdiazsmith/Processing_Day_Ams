@@ -13,6 +13,7 @@ class Player {
   int lastFrameTimeStamp;
   int onionLayerCount = 3;
   boolean onionLayersAvailable = false;
+  boolean previewWithOnion = false;
   // This is none of your business, it is private parts!
   private int oLCount = 3;
   private float fpsInterval = 0;
@@ -38,20 +39,53 @@ class Player {
       lastFrameTimeStamp = millis();
     }
   }
+  /**
+   * @method seek
+   * @params seconds -
+   * if negative it starts at the end and substracts seconds
+   * if positive is simply starts at 0  
+   */
+  void seek( int seconds ) {
+    if( seconds < 0 ){
+      frame = getFileCount() + (seconds * framesPerSecond);
+    }
+    else{
+      frame = seconds*framesPerSecond;
+    }
+    playing = true;
+  }
 
   /**
    * @method showFrame
+   * the reason this in almos a repeated version of onion is because we want to optimize
+   * and only load images every times we save and not every frame
    */
   void showFrame( int frame ) {
     int totalFrames = getFileCount( );
     tint(255, 255);
     if( frame < totalFrames ){
+      if(previewWithOnion) showGosted();
       PImage currentFrame = loadImage("data/"+frame+".png");
       image(currentFrame, 0, 0);
     }
     else{
       stop( );
     }
+  }
+
+  /**
+   * @method showGosted
+   *
+   */
+  void showGosted( ) {
+    for (int i = 0; i < oLCount; i++) {
+      float alpha = 1 - (i*1.0/oLCount*1.0);
+      tint(255, alpha * 150);
+      int f = frame-i >=0?frame-i:0;
+      PImage currentFrame = loadImage("data/"+f+".png");
+      image(currentFrame, 0, 0);
+    }
+    tint(255, 255);
   }
 
   /**
@@ -94,6 +128,13 @@ class Player {
       }
       tint(255, 255);
     }
+  }
+  /**
+   * @method setOnionLayers
+   * @param {int} count
+   */
+  void setOnionLayers( int count ) {
+    oLCount = count;
   }
 
   /**
