@@ -30,7 +30,7 @@ class Canvas {
    * prepares the canvas to draw the next frame.
    */
   void set( ) {
-    brush.reset();
+    // brush.reset();
     player.reload();
 
     totalNumberOfFrames = player.getFileCount( );
@@ -99,8 +99,8 @@ class Canvas {
       player.play();
     }
     else{
-      // brush.update( );
-      brush.draw( );
+      brush.update( );
+      // brush.draw( );
 
       player.onion();
       brushCanvas = brush.get();

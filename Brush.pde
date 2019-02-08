@@ -32,37 +32,9 @@ class Brush {
    * @method update – change appreances of the brush
    */
   void update() {
-    pg.beginDraw();
-    pg.stroke(brushColor);
-    pg.strokeWeight(size);
-    pg.smooth();
-    pg.endDraw();
-  }
-  /**
-   * @method draw – make the trace
-   */
-  void draw() {
     if ( mousePressed ) {
       if (mouseButton == LEFT) {
-        pg.beginDraw();
-        // pg.clear();
-        pg.stroke(brushColor);
-        pg.strokeWeight(size);
-        pg.smooth();
-        pg.line(pmouseX, pmouseY, mouseX, mouseY);
-
-
-        // shp.beginShape();
-        // shp.fill(0, 100, 255);
-        // shp.stroke(100);
-        //
-        // shp.vertex(0, 0);
-        // shp.vertex(0, 50);
-        // shp.vertex(50, 50);
-        // shp.vertex(50, 0);
-        // shp.endShape(CLOSE);
-        // pg.shape(shp);
-        pg.endDraw();
+        draw();
       } else if (mouseButton == RIGHT) {
         eraser = true;
         erase();
@@ -73,26 +45,52 @@ class Brush {
     }
   }
   /**
+   * @method draw – make the trace
+   */
+  void draw() {
+    pg.beginDraw();
+    // pg.clear();
+    pg.stroke(brushColor);
+    pg.strokeWeight(size);
+    pg.smooth();
+    pg.line(pmouseX, pmouseY, mouseX, mouseY);
+
+
+    // shp.beginShape();
+    // shp.fill(0, 100, 255);
+    // shp.stroke(100);
+    //
+    // shp.vertex(0, 0);
+    // shp.vertex(0, 50);
+    // shp.vertex(50, 50);
+    // shp.vertex(50, 0);
+    // shp.endShape(CLOSE);
+    // pg.shape(shp);
+    pg.endDraw();
+  }
+  /**
    * @method erase –
    */
   void erase() {
-    int size = 10;
-    color clearColor  = color(255);
+    int size = 20/2;
+    color clearColor  = color(255, 0);
     int wMin = mouseX - size;
     int wMax = mouseX + size;
     int hMin = mouseY - size;
     int hMax = mouseY + size;
-    
+    pg.beginDraw();
     pg.loadPixels();
     for(int x = wMin ; x < wMax ; x++){
-      for(int y = 0 ; y < hMax ; y++){
-          pg.set(x,y,clearColor);
+      for(int y = hMin ; y < hMax ; y++){
+          if( sqrt( pow(mouseX - x,2)+pow(mouseY - y,2) ) < size ){
+            // pg.set(x,y,clearColor);
+            pg.pixels[x+y*width] = clearColor;
+          }
+
       }
     }
-
     pg.updatePixels();
-
-
+    pg.endDraw();
   }
   /**
    * @method reset – delete all marks. return to blank 'canvas'

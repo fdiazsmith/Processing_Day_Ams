@@ -14,6 +14,7 @@ void settings( ){
   size = settings.getJSONObject("size");
 
   size(size.getInt("width"), size.getInt("height"));
+   // fullScreen(P2D);
 }
 /**
 *
