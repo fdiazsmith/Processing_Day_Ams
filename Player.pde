@@ -80,7 +80,7 @@ class Player {
   void showGosted( ) {
     for (int i = 0; i < oLCount; i++) {
       float alpha = 1 - (i*1.0/oLCount*1.0);
-      tint(255, alpha * 150);
+      tint(255, (alpha*alpha) * 100);
       int f = frame-i >=1?frame-i:1;
       PImage currentFrame = loadImage("data/"+f+".png");
       image(currentFrame, 0, 0, width, height);

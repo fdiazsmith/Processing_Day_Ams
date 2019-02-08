@@ -30,10 +30,7 @@ class Brush {
       } else if (mouseButton == RIGHT) {
         eraser = true;
         erase();
-      } else {
-
       }
-
     }
   }
   /**
