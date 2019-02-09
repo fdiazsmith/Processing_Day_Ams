@@ -7,10 +7,12 @@ class Canvas {
   int totalNumberOfFrames;
   Player player;
   color bgCol = color(255, 255, 255);
+  boolean hardReset = true;
   PImage current;
   Brush brush;
   PGraphics[] oL = new PGraphics[10];
   PGraphics brushCanvas;
+  boolean chosen = false;
   int modalTime = 1300;
   private int modalTimeStamp;
 
@@ -31,7 +33,7 @@ class Canvas {
    * prepares the canvas to draw the next frame.
    */
   void set( ) {
-    brush.reset(true);
+    brush.reset(hardReset);
     player.reload();
 
     totalNumberOfFrames = player.getFileCount( );
@@ -66,7 +68,7 @@ class Canvas {
       save();
     }
     else if(_key == 'r' ){
-      brush.reset(true);
+      brush.reset(hardReset);
     }
     else if(_key == 'h' ){
       player.setOnionLayers(10);
@@ -83,12 +85,30 @@ class Canvas {
     // if(player.playing){
     //   player.stop();
     // }
+    // if( !chosen ) {
+    //   fill(50, 50);
+    //   if(mouseX > width/2){
+    //     rect(width/2,0,width, height);
+    //   }
+    //   else{
+    //     rect(0,0,width/2, height);
+    //   }
+    // }
   }
   /**
    * @method mousePressed
    */
   void mousePressed() {
-
+    if( !chosen ) {
+      if(mouseX > width/2){
+        hardReset = false;
+      }
+      else{
+        hardReset = true;
+      }
+      set();
+      chosen = true;
+    }
   }
 
   /**
@@ -98,6 +118,11 @@ class Canvas {
     background(bgCol);
     if(player.playing){
       player.play();
+    }
+    else if(!chosen){
+      brushCanvas = brush.get();
+      image(brushCanvas, 0, 0, width, height);
+      choose(!chosen);
     }
     else{
       displayUI();
@@ -116,18 +141,19 @@ class Canvas {
     message("Animation duration: "+player.getTimeCode(), width*.015, height*0.015);
     if(modalTimeStamp + modalTime > millis() ){
       modal("Frame Saved", (millis()-modalTimeStamp*1.0)/modalTime*1.0 );
+
     }
   }
   /**
-   * @class save – saves out a new frame
+   * @class save -
    */
   void save( ) {
     // modal("Frame Saved");
+    chosen = false;
     modalTimeStamp = millis();
     totalNumberOfFrames++;
     brushCanvas.save("data/"+totalNumberOfFrames+".png");
     pressedLastFrame = true;
-    set();
 
   }
   /**
@@ -150,5 +176,31 @@ class Canvas {
     fill(30, 180);
     textSize(16);
     text(message, (int)x, (int)y );
+  }
+  /**
+   * @class choose – 
+   */
+  boolean choose( boolean show ) {
+    if(show){
+
+      fill(44, 46, 27, 100);
+      rect(0,0,width, height);
+
+      fill(255);
+      textAlign(CENTER, CENTER);
+      textSize(26);
+      text("START WITH EMPTY FRAME", width*.25, height/2 );
+      text("COPY LAST FRAME", width*.75, height/2 );
+
+      textAlign(CENTER, CENTER);
+      textSize(132);
+      text("Frame Saved", width/2, height*.15);
+
+
+
+      textSize(30);
+      text("FYI you can also erase with the back of the pen", width/2, height*.85);
+    }
+    return true;
   }
 }
