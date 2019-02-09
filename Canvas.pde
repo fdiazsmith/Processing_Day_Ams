@@ -6,7 +6,7 @@ class Canvas {
   boolean pressedLastFrame;
   int totalNumberOfFrames;
   Player player;
-  color bgCol = color(225, 255, 20);
+  color bgCol = color(241, 250, 230);
   PImage current;
   Brush brush;
 
@@ -21,7 +21,6 @@ class Canvas {
     brush = new Brush(30);
     player = new Player(path);
     totalNumberOfFrames = player.getFileCount( );
-
     current = createImage( width, height, ARGB );
   }
 

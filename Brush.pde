@@ -4,9 +4,15 @@
  */
 class Brush {
   int size;
+  int r;
   int scale;
+  int mX,
+      mY,
+      pX,
+      pY;
   color brushColor;
   boolean eraser = false;
+  color clearColor  = color(255, 0);
   PGraphics pg;
   PShape shp;
   /**
@@ -15,8 +21,9 @@ class Brush {
    */
   Brush (int _s) {
     brushColor = color(23);
-    scale = 2;
+    scale = 1;
     size = (int)_s/scale;
+    r = size/2;
     pg = createGraphics(width/scale, height/scale);
     shp = createShape();
   }
@@ -24,6 +31,7 @@ class Brush {
    * @method update – change appreances of the brush
    */
   void update() {
+    getMouse();
     if ( mousePressed ) {
       if (mouseButton == LEFT) {
         draw();
@@ -43,8 +51,8 @@ class Brush {
     pg.strokeWeight(size);
     pg.smooth();
 
-    // if( sqrt( pow((pmouseX/scale) - (mouseX/scale),2) + pow((pmouseY/scale) - (mouseY/scale),2)) < size*4 ){
-      pg.line(pmouseX/scale, pmouseY/scale, mouseX/scale, mouseY/scale);
+    // if( sqrt( pow(pX - mX,2) + pow(pY - mY,2)) < size*4 ){
+      pg.line(pX, pY, mX, mY);
     // }
 
 
@@ -64,12 +72,10 @@ class Brush {
    * @method erase –
    */
   void erase() {
-    int r = size/2;
-    color clearColor  = color(255, 0);
-    int wMin = (mouseX/scale) - r;
-    int wMax = (mouseX/scale) + r;
-    int hMin = (mouseY/scale) - r;
-    int hMax = (mouseY/scale) + r;
+    int wMin = mX - r;
+    int wMax = mX + r;
+    int hMin = mY - r;
+    int hMax = mY + r;
     pg.beginDraw();
     pg.loadPixels();
     for(int x = wMin ; x < wMax ; x++){
@@ -87,8 +93,8 @@ class Brush {
    * @method reset – delete all marks. return to blank 'canvas'
    */
   void reset() {
-    // pmouseX = mouseX;
-    // pmouseY =  mouseY;
+    pX = mouseX;
+    pY =  mouseY;
     // pg = createGraphics(width, height);
     // // HACK: you can't save an empty canvas. so we draw and transparent line
     // pg.beginDraw();
@@ -103,5 +109,15 @@ class Brush {
    */
   PGraphics get() {
     return pg;
+  }
+  /**
+   * @method get – returns the brush graphics context
+   * @returns {PGraphics} pg
+   */
+  void getMouse() {
+    mX = mouseX/scale;
+    mY = mouseY/scale;
+    pX = pmouseX/scale;
+    pY = pmouseY/scale;
   }
 }

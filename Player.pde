@@ -26,7 +26,7 @@ class Player {
   Player ( String _path ) {
     path = _path;
     files = listFiles( _path );
-    setFPS(12);
+    setFPS(10);
   }
 
   /**
@@ -66,7 +66,7 @@ class Player {
     if( frame < totalFrames ){
       if(previewWithOnion) showGosted();
       PImage currentFrame = loadImage("data/"+frame+".png");
-      image(currentFrame, 0, 0, width, height);
+      image(currentFrame, 0, 0);//, width, height);
     }
     else{
       stop( );
@@ -83,7 +83,7 @@ class Player {
       tint(255, (alpha*alpha) * 100);
       int f = frame-i >=1?frame-i:1;
       PImage currentFrame = loadImage("data/"+f+".png");
-      image(currentFrame, 0, 0, width, height);
+      image(currentFrame, 0, 0);//, width, height);
     }
     tint(255, 255);
   }
@@ -124,7 +124,7 @@ class Player {
       for (int i = 0; i < oLCount; i++) {
         float alpha = 1 - (i*1.0/oLCount*1.0);
         tint(255, alpha * 150);
-        image(onionLayers[i], 0, 0, width, height);
+        image(onionLayers[i], 0, 0);//, width, height);
       }
       tint(255, 255);
     }

@@ -14,7 +14,7 @@ void settings( ){
   size = settings.getJSONObject("size");
 
   size(size.getInt("width"), size.getInt("height"));
-   // fullScreen(P2D);
+   fullScreen( );
 }
 /**
 *
@@ -23,7 +23,6 @@ void settings( ){
 void setup() {
   size(600, 600);
   canvas = new Canvas( "data" );
-  canvas.bgCol = color(255, 255, 0);
   canvas.set();
 }
 /**
