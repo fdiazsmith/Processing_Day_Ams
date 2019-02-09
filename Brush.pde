@@ -91,17 +91,20 @@ class Brush {
   }
   /**
    * @method reset – delete all marks. return to blank 'canvas'
+   * @params {boolean} hardReset
    */
-  void reset() {
+  void reset( boolean hardReset) {
     pX = mouseX;
     pY =  mouseY;
-    // pg = createGraphics(width, height);
-    // // HACK: you can't save an empty canvas. so we draw and transparent line
-    // pg.beginDraw();
-    // pg.stroke(255, 0);
-    // pg.line(0, 0, width, 0);
-    // pg.endDraw();
-    // shp = createShape();
+    if(hardReset){
+      pg = createGraphics(width, height);
+      // HACK: you can't save an empty canvas. so we draw and transparent line
+      pg.beginDraw();
+      pg.stroke(255, 0);
+      pg.line(0, 0, width, 0);
+      pg.endDraw();
+      shp = createShape();
+    }
   }
   /**
    * @method get – returns the brush graphics context

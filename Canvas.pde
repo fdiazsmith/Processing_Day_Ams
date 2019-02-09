@@ -9,7 +9,6 @@ class Canvas {
   color bgCol = color(241, 250, 230);
   PImage current;
   Brush brush;
-
   PGraphics[] oL = new PGraphics[10];
   PGraphics brushCanvas;
 
@@ -29,7 +28,7 @@ class Canvas {
    * prepares the canvas to draw the next frame.
    */
   void set( ) {
-    brush.reset();
+    brush.reset(false);
     player.reload();
 
     totalNumberOfFrames = player.getFileCount( );
@@ -64,7 +63,7 @@ class Canvas {
       save();
     }
     else if(_key == 'r' ){
-      brush.reset();
+      brush.reset(false);
     }
     else if(_key == 'h' ){
       player.setOnionLayers(10);

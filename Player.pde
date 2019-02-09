@@ -48,6 +48,7 @@ class Player {
   void seek( int seconds ) {
     if( seconds < 0 ){
       frame = getFileCount() + (seconds * framesPerSecond);
+      frame = frame <= 1 ? 1: frame;
     }
     else{
       frame = seconds*framesPerSecond;
@@ -78,6 +79,7 @@ class Player {
    *
    */
   void showGosted( ) {
+
     for (int i = 0; i < oLCount; i++) {
       float alpha = 1 - (i*1.0/oLCount*1.0);
       tint(255, (alpha*alpha) * 100);
@@ -134,7 +136,7 @@ class Player {
    * @param {int} count
    */
   void setOnionLayers( int count ) {
-    oLCount = count;
+    oLCount = getFileCount() < 10 ? getFileCount() : count;
   }
 
   /**
