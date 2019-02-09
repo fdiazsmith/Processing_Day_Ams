@@ -11,6 +11,9 @@ class Canvas {
   Brush brush;
   PGraphics[] oL = new PGraphics[10];
   PGraphics brushCanvas;
+  int modalTime = 1300;
+  private int modalTimeStamp;
+
 
   /**
    * @contructor
@@ -77,9 +80,9 @@ class Canvas {
    * @method mouseMoved
    */
   void mouseMoved() {
-    if(player.playing){
-      player.stop();
-    }
+    // if(player.playing){
+    //   player.stop();
+    // }
   }
   /**
    * @method mousePressed
@@ -97,9 +100,9 @@ class Canvas {
       player.play();
     }
     else{
-      message("Animation duration: "+player.getFileCount()/player.framesPerSecond+"s", width*.015, height*0.015);
+      displayUI();
+
       brush.update( );
-      // brush.draw( );
 
       player.onion();
       brushCanvas = brush.get();
@@ -107,25 +110,35 @@ class Canvas {
     }
   }
   /**
+   * @class displayUI – 
+   */
+  void displayUI( ) {
+    message("Animation duration: "+player.getFileCount()/player.framesPerSecond+"s", width*.015, height*0.015);
+    if(modalTimeStamp + modalTime > millis() ){
+      modal("Frame Saved", (millis()-modalTimeStamp*1.0)/modalTime*1.0 );
+    }
+  }
+  /**
    * @class save – saves out a new frame
    */
   void save( ) {
-    modal("Frame Saved");
-    delay(100);
+    // modal("Frame Saved");
+    modalTimeStamp = millis();
     totalNumberOfFrames++;
     brushCanvas.save("data/"+totalNumberOfFrames+".png");
     pressedLastFrame = true;
     set();
-    delay(300);
+
   }
   /**
    * @class modal – 
    */
-  void modal( String message ) {
+  void modal( String message, float normal ) {
+    float alpha = 1-(normal*normal);
     textAlign(CENTER, CENTER);
-    fill(50, 150);
+    fill(50, alpha*150);
     rect(0,0,width, height);
-    fill(255);
+    fill(255, alpha*255);
     textSize(132);
     text(message, width/2, height/2);
   }
