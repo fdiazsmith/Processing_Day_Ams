@@ -6,7 +6,7 @@ class Canvas {
   boolean pressedLastFrame;
   int totalNumberOfFrames;
   Player player;
-  color bgCol = color(241, 250, 230);
+  color bgCol = color(255, 255, 255);
   PImage current;
   Brush brush;
   PGraphics[] oL = new PGraphics[10];
@@ -113,7 +113,7 @@ class Canvas {
    * @class displayUI – 
    */
   void displayUI( ) {
-    message("Animation duration: "+player.getFileCount()/player.framesPerSecond+"s", width*.015, height*0.015);
+    message("Animation duration: "+player.getTimeCode(), width*.015, height*0.015);
     if(modalTimeStamp + modalTime > millis() ){
       modal("Frame Saved", (millis()-modalTimeStamp*1.0)/modalTime*1.0 );
     }

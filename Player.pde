@@ -164,6 +164,26 @@ class Player {
     fpsInterval = 1000/framesPerSecond;
     return fpsInterval;
   }
+  /**
+   * @method getMinutes –
+   */
+  float getMinutes(  ) {
+    return floor((getFileCount()/framesPerSecond)/60);
+  }
+  /**
+   * @method getSeconds –
+   */
+  float getSeconds(  ) {
+    return floor((getFileCount()/framesPerSecond)%60);
+  }
+  /**
+   * @method getTimeCode –
+   */
+  String getTimeCode(  ) {
+    String _minutes = getMinutes()<10? "0"+(int)getMinutes():(int)getMinutes()+"";
+    String _seconds = getSeconds()<10? "0"+(int)getSeconds():(int)getSeconds()+"";
+    return  _minutes+":"+_seconds;
+  }
 
   /**
    * @method listFiles – get
