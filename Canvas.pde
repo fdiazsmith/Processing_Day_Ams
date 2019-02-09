@@ -31,7 +31,7 @@ class Canvas {
    * prepares the canvas to draw the next frame.
    */
   void set( ) {
-    brush.reset(false);
+    brush.reset(true);
     player.reload();
 
     totalNumberOfFrames = player.getFileCount( );
@@ -66,7 +66,7 @@ class Canvas {
       save();
     }
     else if(_key == 'r' ){
-      brush.reset(false);
+      brush.reset(true);
     }
     else if(_key == 'h' ){
       player.setOnionLayers(10);
