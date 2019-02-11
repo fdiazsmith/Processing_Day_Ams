@@ -3,7 +3,7 @@ Canvas canvas;
 JSONObject settings;
 
 /**
-*
+* - useful to always have in a Pricessing day/ 
 * @method settings
 */
 void settings( ){
@@ -14,7 +14,9 @@ void settings( ){
   size = settings.getJSONObject("size");
 
   size(size.getInt("width"), size.getInt("height"));
-   fullScreen( );
+  // here we could add a check to see if the widht and height ar defined
+  // go go full screen if they are not.
+  fullScreen( );
 }
 /**
 *
