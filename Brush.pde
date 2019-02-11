@@ -4,17 +4,19 @@
  */
 class Brush {
   int size;
-  int r;
   int scale;
-  int mX,
-      mY,
-      pX,
-      pY;
   color brushColor;
-  boolean eraser = false;
-  color clearColor  = color(255, 0);
   PGraphics pg;
   PShape shp;
+
+  private int radius;
+  private int mX,
+              mY,
+              pX,
+              pY;
+  private boolean eraser = false;
+  private color clearColor  = color(255, 0);
+
   /**
    * @contructor
    * @param {int} _s - size of the brush
@@ -23,10 +25,11 @@ class Brush {
     brushColor = color(23);
     scale = 1;
     size = (int)_s/scale;
-    r = size/2;
+    radius = size/2;
     pg = createGraphics(width/scale, height/scale);
     shp = createShape();
   }
+
   /**
    * @method update – change appreances of the brush
    */
@@ -41,46 +44,36 @@ class Brush {
       }
     }
   }
+
   /**
    * @method draw – make the trace
    */
   void draw() {
     pg.beginDraw();
-    // pg.clear();
     pg.stroke(brushColor);
     pg.strokeWeight(size);
     pg.smooth();
-
-    // if( sqrt( pow(pX - mX,2) + pow(pY - mY,2)) < size*4 ){
-      pg.line(pX, pY, mX, mY);
-    // }
-
-
-    // shp.beginShape();
-    // shp.fill(0, 100, 255);
-    // shp.stroke(100);
-    //
-    // shp.vertex(0, 0);
-    // shp.vertex(0, 50);
-    // shp.vertex(50, 50);
-    // shp.vertex(50, 0);
-    // shp.endShape(CLOSE);
-    // pg.shape(shp);
+    pg.line(pX, pY, mX, mY);
+    /*
+    if we wanted to createshapes that could be revisited or redrawn
+    here we would use a PShape to create vertor art instead of pixel based images
+    */
     pg.endDraw();
   }
+
   /**
    * @method erase –
    */
   void erase() {
-    int wMin = mX - r;
-    int wMax = mX + r;
-    int hMin = mY - r;
-    int hMax = mY + r;
+    int wMin = mX - radius;
+    int wMax = mX + radius;
+    int hMin = mY - radius;
+    int hMax = mY + radius;
     pg.beginDraw();
     pg.loadPixels();
     for(int x = wMin ; x < wMax ; x++){
       for(int y = hMin ; y < hMax ; y++){
-          if( sqrt( pow((mouseX/scale) - x,2)+pow((mouseY/scale) - y,2) ) < r ){
+          if( sqrt( pow((mouseX/scale) - x,2)+pow((mouseY/scale) - y,2) ) < radius ){
             // pg.set(x,y,clearColor);
             pg.pixels[x+y*(width/scale)] = clearColor;
           }
@@ -89,6 +82,7 @@ class Brush {
     pg.updatePixels();
     pg.endDraw();
   }
+
   /**
    * @method reset – delete all marks. return to blank 'canvas'
    * @params {boolean} hardReset
@@ -106,6 +100,7 @@ class Brush {
       shp = createShape();
     }
   }
+
   /**
    * @method get – returns the brush graphics context
    * @returns {PGraphics} pg
@@ -113,6 +108,7 @@ class Brush {
   PGraphics get() {
     return pg;
   }
+
   /**
    * @method get – returns the brush graphics context
    * @returns {PGraphics} pg

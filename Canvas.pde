@@ -3,18 +3,19 @@
  * - this class should coordinate between player and brush
  */
 class Canvas {
-  boolean pressedLastFrame;
-  int totalNumberOfFrames;
   Player player;
-  color bgCol = color(255, 255, 255);
-  boolean hardReset = true;
   PImage current;
   Brush brush;
-  PGraphics[] oL = new PGraphics[10];
-  PGraphics brushCanvas;
-  boolean chosen = false;
-  int modalTime = 1300;
+
+  private PGraphics brushCanvas;
+  private PGraphics[] oL = new PGraphics[10];
+  private boolean chosen = false;
   private int modalTimeStamp;
+  private boolean pressedLastFrame;
+  private int totalNumberOfFrames;
+  private boolean hardReset = true;
+  private color bgCol = color(255, 255, 255);
+  private int modalTime = 1300;
 
 
   /**
@@ -82,18 +83,11 @@ class Canvas {
    * @method mouseMoved
    */
   void mouseMoved() {
-    // if(player.playing){
-    //   player.stop();
-    // }
-    // if( !chosen ) {
-    //   fill(50, 50);
-    //   if(mouseX > width/2){
-    //     rect(width/2,0,width, height);
-    //   }
-    //   else{
-    //     rect(0,0,width/2, height);
-    //   }
-    // }
+    /*
+    Here you could pause the video if the mouse moves.
+
+    or add other UX features like hover or something like that
+    */
   }
   /**
    * @method mousePressed

@@ -4,20 +4,20 @@
  * [custom event listeners](https://forum.processing.org/one/topic/custom-events-event-listener.html)
  */
 class Player {
-  File[] files;
-  String path;
   PImage[] onionLayers = new PImage[10];
   boolean playing = false;
-  int frame = 1;
-  int framesPerSecond;
-  int lastFrameTimeStamp;
-  int onionLayerCount = 3;
-  boolean onionLayersAvailable = false;
-  boolean previewWithOnion = false;
   // This is none of your business, it is private parts!
   private int oLCount = 3;
   private float fpsInterval = 0;
   private static final boolean DEBUG = false;
+  private String path;
+  private int frame = 1;
+  private int lastFrameTimeStamp;
+  private int onionLayerCount = 3;
+  private boolean previewWithOnion = false;
+  private boolean onionLayersAvailable = false;
+  private int framesPerSecond;
+  private File[] files;
 
   /**
    * @contructor
